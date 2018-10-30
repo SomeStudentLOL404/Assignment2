@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//Some random change, dont kill me pls
+//
 
 int main(int argc, char *argv[])
 {
