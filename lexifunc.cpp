@@ -54,7 +54,6 @@ Token getNextToken(istream *in, int *linenum)
                     lexeme.push_back(ch);
                     return Token(PLUS, lexeme, *linenum);
                 }
-
                 else if (ch == '*')
                 {
                     lexeme.push_back(ch);
@@ -83,6 +82,7 @@ Token getNextToken(istream *in, int *linenum)
                     if (in->peek() == '=')
                     {
                         in->get();
+
                         //lexeme.push_back(ch);
                         return Token(NEQ, lexeme, *linenum);
                     }
@@ -92,6 +92,7 @@ Token getNextToken(istream *in, int *linenum)
                         {
                             (*linenum++);
                         }
+                        cout << "Returne error at !" << endl;
                         return Token(ERR, lexeme, *linenum);
                     }
                 }
@@ -109,6 +110,7 @@ Token getNextToken(istream *in, int *linenum)
                         {
                             (*linenum++);
                         }
+                        cout << "Returne error at <" << endl;
                         return Token(ERR, lexeme, *linenum);
                     }
                 }
@@ -126,6 +128,7 @@ Token getNextToken(istream *in, int *linenum)
                         {
                             (*linenum++);
                         }
+                        cout << "Returne error at >" << endl;
                         return Token(ERR, lexeme, *linenum);
                     }
                 }
@@ -143,6 +146,7 @@ Token getNextToken(istream *in, int *linenum)
                         {
                             (*linenum++);
                         }
+                        cout << "Returne error at &" << endl;
                         return Token(ERR, lexeme, *linenum);
                     }
                 }
@@ -160,6 +164,7 @@ Token getNextToken(istream *in, int *linenum)
                         {
                             (*linenum++);
                         }
+                        cout << "Returne error at |" << endl;
                         return Token(ERR, lexeme, *linenum);
                     }
 
@@ -186,6 +191,7 @@ Token getNextToken(istream *in, int *linenum)
                     {
                         (*linenum++);
                     }
+                    cout << "Returne error at FINALE" << endl;
                     return Token(ERR, lexeme, *linenum);
                 }
 
@@ -199,7 +205,6 @@ Token getNextToken(istream *in, int *linenum)
                 }
                 else //if (isspace(ch))
                 {
-
                     if(lexeme == "print" || lexeme == "PRINT")
                     {
                         lexeme.clear();
