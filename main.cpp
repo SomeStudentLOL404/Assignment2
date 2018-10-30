@@ -121,6 +121,7 @@ int main(int argc, char *argv[])
                 if (flaga)
                 {
                     sort(IDENTVect.begin(),IDENTVect.end());
+                    IDENTVect.erase( unique( IDENTVect.begin(), IDENTVect.end() ), IDENTVect.end() );
                     cout << "IDENTIFIERS: ";
                     for(unsigned int i = 0; i <= IDENTVect.size() -1; ++i)
                     {
@@ -136,6 +137,7 @@ int main(int argc, char *argv[])
                 }
                 if (flags)
                 {
+
                    cout << "Total lines: " << tok.GetLinenum() << endl;
                    cout << "Total tokens: " << tokenCount << endl;
                    cout << "Total identifiers: " << identCount << endl;
@@ -143,7 +145,7 @@ int main(int argc, char *argv[])
                 }
 
             }
-            //cout << flush;
+           // infile1.close();
         }
     }
     return 0;
