@@ -1,0 +1,203 @@
+#include <iostream>
+#include <cstring>
+#include <fstream>
+#include "tokens.h"
+Token tok;
+
+Token getNextToken(istream *in, int *linenum)
+{
+            enum LexState { BEGIN, INID, INSTRING, DONE, ININT, INOP/* others */ };
+            LexState lexstate = BEGIN;
+            string lexeme;
+            char ch;
+    
+            while(in->get(ch)) {
+                
+                if( ch == '\n' ) 
+                {
+                    (*linenum)++;
+                }
+                
+                switch(lexstate) 
+                {
+                    case BEGIN:
+                        if(isspace(ch))
+                        {
+                            continue;
+                        }
+                        //if the character is alphabet
+                        else if(isalpha(ch)) 
+                        {
+                            lexeme.push_back(ch);
+                            lexstate = INID;
+                        }
+                        //if the character is a digit
+                        else if(isdigit(ch)) 
+                        {
+                            lexeme.push_back(ch);
+                            lexstate = ININT;
+                        }
+                        //if the character starts with a "
+                        else if(ch == '"') 
+                        {
+                            lexeme.push_back(ch);
+                            lexstate = INSTRING;
+                        }
+                        //PLUS
+                        else if(ch == '+') 
+                        { 
+                            
+                            lexeme.push_back(ch);
+                            return Token (PLUS, lexeme, *linenum);
+                        }
+                        //STAR
+                        else if(ch == '*')
+                        {
+                            lexeme.push_back(ch);
+                            return Token (STAR, lexeme, *linenum);
+                        }
+                        //SLASH
+                        else if(ch == '/')
+                        {
+                            lexeme.push_back(ch);
+                            return Token (SLASH, lexeme, *linenum);
+                        }
+                        //ASSIGN
+                        else if(ch == '=')
+                        {
+                            if(in->peek() == '=')
+                            {
+                                //EQUAL TOO
+                                lexeme.push_back(ch);
+                                return Token (EQ, lexeme, *linenum);
+                            } 
+                            else
+                            {
+                                lexeme.push_back(ch);
+                                return Token (ASSIGN, lexeme, *linenum);
+                            }
+                            
+                        }
+                        //NOT EQUAL TOO
+                        else if(ch == '!')
+                        {
+                            if(in->peek() == '=')
+                            {
+                                lexeme.push_back(ch);
+                                return Token (NEQ, lexeme, *linenum);
+                            }
+                        }
+                        else if(ch == '<')
+                        {
+                            //LESS THAN;
+                            if(in->peek() == '=')
+                            {
+                                //LESS THAN OR EQUAL TOO
+                                lexeme.push_back(ch);
+                                return Token (LEQ, lexeme, *linenum);
+                            } 
+                            else
+                            {
+                                lexeme.push_back(ch);
+                                return Token (LT, lexeme, *linenum);
+                            }  
+                        }
+                        else if(ch == '>')
+                        {
+                            //GREATER THAN
+                            if(in->peek() == '=')
+                            {
+                                //GREATER THAN OR EQUAL TOO
+                                lexeme.push_back(ch);
+                                return Token (GEQ, lexeme, *linenum);
+                            }
+                            else
+                            {
+                                 lexeme.push_back(ch);
+                                 return Token (GT, lexeme, *linenum);   
+                            }
+                        }
+                        //LOGIC AND
+                        else if(ch == '&')
+                        {
+                            if(in->peek() == '&')
+                            {
+                                lexeme.push_back(ch);
+                                return Token (LOGICAND, lexeme, *linenum);
+                            }
+                        }
+                        //LOGIC OR
+                        else if(ch == '|')
+                        {
+                            if(in->peek() == '|')
+                            {
+                                lexeme.push_back(ch);
+                                return Token (LOGICOR, lexeme, *linenum);
+                            }
+                        }
+                        //LEFT PARANTHESES
+                        else if(ch == '(')
+                        {
+                            lexeme.push_back(ch);
+                            return Token (LPAREN, lexeme, *linenum);
+                        }
+                        //RIGHT PARANTHESES
+                        else if(ch == ')')
+                        {
+                            lexeme.push_back(ch);
+                            return Token (RPAREN, lexeme, *linenum);
+                        }
+                        //SEMICOLON
+                        else if(ch == ';')
+                        {
+                            lexeme.push_back(ch);
+                            return Token (SC, lexeme, *linenum);
+                        }
+                     //
+                    case INID:
+                       if(isalnum(ch))
+                       {
+                           lexeme.push_back(ch);
+                       }
+                       else if(isspace(ch))
+                       {
+                          lexeme.push_back(ch);
+                          return Token (DONE, lexeme, *linenum); 
+                       }
+                    //
+                    case ININT:
+                        if(isdigit(ch))
+                        {
+                          lexeme.push_back(ch);
+                        }
+                        else if(isspace(ch))
+                        {
+                           lexeme.push_back(ch);
+                           return Token (DONE, lexeme, *linenum); 
+                        }
+                    //
+                    case INSTRING:
+                        if(isprint(ch))
+                        {
+                           lexeme.push_back(ch);
+                        }
+                        else if(ch == '"')
+                        {
+                          lexeme.push_back(ch);
+                          return Token (DONE, lexeme, *linenum);   
+                        } 
+                    case INOP:
+                        if(isprint(ch))
+                        {
+                           lexeme.push_back(ch);
+                        }
+                        else if(ch == '"')
+                        {
+                          lexeme.push_back(ch);
+                          return Token (DONE, lexeme, *linenum);   
+                        } 
+                   }
+              }
+      }
+                                
+}
