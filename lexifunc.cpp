@@ -104,6 +104,7 @@ Token getNextToken(istream *in, int *linenum)
                         //lexeme.push_back(ch);
                         return Token(LEQ, lexeme, *linenum);
                     }
+                    /*
                     else
                     {
                         if (in->peek() == '\n')
@@ -113,6 +114,7 @@ Token getNextToken(istream *in, int *linenum)
                         cout << "Returne error at <" << endl;
                         return Token(ERR, lexeme, *linenum);
                     }
+                     */
                 }
                 else if (ch == '>')
                 {
@@ -122,6 +124,7 @@ Token getNextToken(istream *in, int *linenum)
                         // lexeme.push_back(ch);
                         return Token(GEQ, lexeme, *linenum);
                     }
+                    /*
                     else
                     {
                         if (in->peek() == '\n')
@@ -131,6 +134,7 @@ Token getNextToken(istream *in, int *linenum)
                         cout << "Returne error at >" << endl;
                         return Token(ERR, lexeme, *linenum);
                     }
+                     */
                 }
                 else if (ch == '&')
                 {
