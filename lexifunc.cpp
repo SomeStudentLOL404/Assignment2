@@ -240,13 +240,14 @@ Token getNextToken(istream* in, int* linenum)
                 //If its not a digit
                 if (!isdigit(ch))
                 {
+                    if (ch == '\n')
+                    {
+                        (*linenum)--;
+                    }
+                    in->putback(ch);
                     if (lexeme == "-")
                     {
-                        if (ch == '\n')
-                        {
-                            (*linenum)--;
-                        }
-                        in->putback(ch);
+
                         return Token(MINUS, lexeme, *linenum);
                     }
                         //If it is
