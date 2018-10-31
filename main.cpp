@@ -116,14 +116,18 @@ int main(int argc, char* argv[])
             }
         }
     }
+    //While loop ended here
     if (tok == ERR)
     {
-        cerr << "Error on line " << lineNumber << " (\"" << tok.GetLexeme() << ")" << endl;
+        cerr << "Error on line " << lineNumber << " (" << tok.GetLexeme() << ")" << endl;
+        return -1;
     }
     //Identities first
     if (flaga)
     {
+        //Sort Identities
         sort(IDENTVect.begin(), IDENTVect.end());
+        //Erase duplicates
         IDENTVect.erase(unique(IDENTVect.begin(), IDENTVect.end()), IDENTVect.end());
         cout << "IDENTIFIERS: ";
         for (unsigned int i = 0; i <= IDENTVect.size() - 1; ++i)
@@ -140,13 +144,15 @@ int main(int argc, char* argv[])
     }
     if (flags)
     {
-
+        /*
+        To fix mix2, replace line part with this:
         cout << "Total lines: " << tok.GetLinenum() + 1 << endl;
+        */
+        cout << "Total lines: " << tok.GetLinenum() << endl;
         cout << "Total tokens: " << tokenCount << endl;
         cout << "Total identifiers: " << identCount << endl;
         cout << "Total strings: " << tStringCount << endl;
     }
-
     return 0;
 }
 

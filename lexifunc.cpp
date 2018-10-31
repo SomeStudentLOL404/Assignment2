@@ -194,13 +194,20 @@ Token getNextToken(istream* in, int* linenum)
             case INID:
                 if (isalnum(ch))
                 {
+                    if(in->peek() == EOF)
+                    {
+                        (*linenum)--;
+                    }
+
                     lexeme.push_back(ch);
                 }
                 else //if (isspace(ch))
                 {
                     in->putback(ch);
                     if (ch == '\n')
+                    {
                         (*linenum)--;
+                    }
                     if (lexeme == "print" || lexeme == "PRINT")
                     {
                         lexeme.clear();
@@ -252,8 +259,9 @@ Token getNextToken(istream* in, int* linenum)
                         {
                             (*linenum)--;
                         }
-                        in->putback(ch);
 
+                        in->putback(ch);
+                        //(*linenum)--;
                         return Token(ICONST, lexeme, *linenum);
                     }
                 }
@@ -286,3 +294,4 @@ Token getNextToken(istream* in, int* linenum)
     }
     return Token(DONE, lexeme, *linenum);
 }
+
