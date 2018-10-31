@@ -8,7 +8,7 @@
 using namespace std;
 Token tok;
 
-Token getNextToken(istream *in, int *linenum)
+Token getNextToken(istream* in, int* linenum)
 {
     enum LexState
     {
@@ -83,7 +83,7 @@ Token getNextToken(istream *in, int *linenum)
                     {
                         in->get();
 
-                        //lexeme.push_back(ch);
+                        lexeme.push_back(ch);
                         return Token(NEQ, lexeme, *linenum);
                     }
                     else
@@ -104,17 +104,14 @@ Token getNextToken(istream *in, int *linenum)
                         //lexeme.push_back(ch);
                         return Token(LEQ, lexeme, *linenum);
                     }
-                    /*
                     else
                     {
                         if (in->peek() == '\n')
                         {
                             (*linenum)++;
                         }
-                        cout << "Returne error at <" << endl;
-                        return Token(ERR, lexeme, *linenum);
+                        return Token(LT, lexeme, *linenum);
                     }
-                     */
                 }
                 else if (ch == '>')
                 {
@@ -124,17 +121,14 @@ Token getNextToken(istream *in, int *linenum)
                         // lexeme.push_back(ch);
                         return Token(GEQ, lexeme, *linenum);
                     }
-                    /*
                     else
                     {
                         if (in->peek() == '\n')
                         {
-                            (*linenum++);
+                            (*linenum)++;
                         }
-                        cout << "Returne error at >" << endl;
-                        return Token(ERR, lexeme, *linenum);
+                        return Token(GT, lexeme, *linenum);
                     }
-                     */
                 }
                 else if (ch == '&')
                 {
@@ -148,7 +142,7 @@ Token getNextToken(istream *in, int *linenum)
                     {
                         if (in->peek() == '\n')
                         {
-                            (*linenum++);
+                            (*linenum)++;
                         }
                         cout << "Returne error at &" << endl;
                         return Token(ERR, lexeme, *linenum);
@@ -166,7 +160,7 @@ Token getNextToken(istream *in, int *linenum)
                     {
                         if (in->peek() == '\n')
                         {
-                            (*linenum++);
+                            (*linenum)++;
                         }
                         cout << "Returne error at |" << endl;
                         return Token(ERR, lexeme, *linenum);
@@ -188,12 +182,11 @@ Token getNextToken(istream *in, int *linenum)
                     lexeme.push_back(ch);
                     return Token(SC, lexeme, *linenum);
                 }
-
                 else
                 {
                     if (in->peek() == '\n')
                     {
-                        (*linenum++);
+                        (*linenum)++;
                     }
                     cout << "Returne error at FINALE" << endl;
                     return Token(ERR, lexeme, *linenum);
@@ -209,35 +202,36 @@ Token getNextToken(istream *in, int *linenum)
                 }
                 else //if (isspace(ch))
                 {
-                    if(lexeme == "print" || lexeme == "PRINT")
+                    in->putback(ch);
+                    if (ch == '\n')
+                        (*linenum)--;
+                    if (lexeme == "print" || lexeme == "PRINT")
                     {
                         lexeme.clear();
                         return Token(PRINT, lexeme, *linenum);
                     }
-                    else if(lexeme == "if" || lexeme == "IF")
+                    else if (lexeme == "if" || lexeme == "IF")
                     {
                         lexeme.clear();
                         return Token(IF, lexeme, *linenum);
                     }
-                    else if(lexeme == "then" || lexeme == "THEN")
+                    else if (lexeme == "then" || lexeme == "THEN")
                     {
                         lexeme.clear();
                         return Token(THEN, lexeme, *linenum);
                     }
-                    else if(lexeme == "true" || lexeme == "TRUE")
+                    else if (lexeme == "true" || lexeme == "TRUE")
                     {
                         lexeme.clear();
                         return Token(TRUE, lexeme, *linenum);
                     }
-                    else if(lexeme == "false" || lexeme == "FALSE")
+                    else if (lexeme == "false" || lexeme == "FALSE")
                     {
                         lexeme.clear();
                         return Token(FALSE, lexeme, *linenum);
                     }
                     else
                     {
-                        in->putback(ch);
-                        (*linenum--);
                         return Token(IDENT, lexeme, *linenum);
                     }
                 }
@@ -252,7 +246,6 @@ Token getNextToken(istream *in, int *linenum)
                         {
                             (*linenum)--;
                         }
-                        //(*linenum)--;
                         in->putback(ch);
                         return Token(MINUS, lexeme, *linenum);
                     }
@@ -269,7 +262,6 @@ Token getNextToken(istream *in, int *linenum)
                 }
                 //Unreachable break
                 //break;
-
             case INSTRING:
                 if (ch == '"')
                 {
@@ -282,7 +274,6 @@ Token getNextToken(istream *in, int *linenum)
                 }
                 lexeme.push_back(ch);
                 break;
-
             case INCOMMENT:
                 if (ch == '\n')
                 {
