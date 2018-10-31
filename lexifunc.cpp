@@ -230,7 +230,13 @@ Token getNextToken(istream* in, int* linenum)
                     }
                     else
                     {
+                        int nextlinenumb = *linenum + 1;
+                        if(in->peek() == '\n' && nextlinenumb == EOF)
+                        {
+                            (*linenum)++;
+                        }
                         return Token(IDENT, lexeme, *linenum);
+
                     }
                 }
                 break;
@@ -281,7 +287,7 @@ Token getNextToken(istream* in, int* linenum)
             case INCOMMENT:
                 if (ch == '\n')
                 {
-                    (*linenum)--;
+                    //(*linenum)--;
                     lexstate = BEGIN;
                 }
                 break;
