@@ -161,7 +161,6 @@ Token getNextToken(istream* in, int* linenum)
                         {
                             (*linenum)++;
                         }
-                        cout << "Returne error at |" << endl;
                         return Token(ERR, lexeme, *linenum);
                     }
 
@@ -187,13 +186,11 @@ Token getNextToken(istream* in, int* linenum)
                     {
                         (*linenum)++;
                     }
-                    cout << "Returne error at FINALE" << endl;
+                    lexeme.push_back(ch);
                     return Token(ERR, lexeme, *linenum);
                 }
 
-                //
                 break;
-                //
             case INID:
                 if (isalnum(ch))
                 {
@@ -241,6 +238,7 @@ Token getNextToken(istream* in, int* linenum)
                 {
                     if (lexeme == "-")
                     {
+                        in->putback(ch);
                         return Token(MINUS, lexeme, *linenum);
                     }
                     else if (isalpha(ch))
