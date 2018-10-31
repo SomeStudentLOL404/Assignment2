@@ -114,5 +114,3 @@ ostream &operator<<(ostream &out, const Token &tok)
     }
     return out;
 }
-
-

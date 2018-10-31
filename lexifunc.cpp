@@ -90,7 +90,7 @@ Token getNextToken(istream *in, int *linenum)
                     {
                         if (in->peek() == '\n')
                         {
-                            (*linenum++);
+                            (*linenum)++;
                         }
                         cout << "Returne error at !" << endl;
                         return Token(ERR, lexeme, *linenum);
@@ -109,7 +109,7 @@ Token getNextToken(istream *in, int *linenum)
                     {
                         if (in->peek() == '\n')
                         {
-                            (*linenum++);
+                            (*linenum)++;
                         }
                         cout << "Returne error at <" << endl;
                         return Token(ERR, lexeme, *linenum);

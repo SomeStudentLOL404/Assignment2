@@ -76,8 +76,8 @@ int main(int argc, char *argv[])
 
                 vector<string> IDENTVect;
                 vector<string> HandleDetect = {"PLUS", "MINUS", "STAR", "SLASH", "ASSIGN", "EQ", "NEQ", "LT", "LEQ", "GT", "GEQ", "LOGICAND", "LOGICOR", "LPAREN", "RPAREN", "SC",
-                                                "PRINT", "IF", "THEN", "TRUE", "FALSE",
-                                                "IDENT", "ICONST", "SCONST", "DONE"};
+                                               "PRINT", "IF", "THEN", "TRUE", "FALSE",
+                                               "IDENT", "ICONST", "SCONST", "DONE"};
 
                 while ((tok = getNextToken(&infile1, &lineNumber)) != DONE && tok != ERR)
                 {
@@ -89,9 +89,9 @@ int main(int argc, char *argv[])
                     if (flags)
                     {
                         //Not working, maybe done not properly?
-                       tokenCount = tokenCount + 1;
+                        tokenCount = tokenCount + 1;
 
-                       //Checks to see how many identities - WORKING
+                        //Checks to see how many identities - WORKING
                         if(tok == IDENT)
                         {
                             identCount = identCount + 1;
@@ -138,14 +138,14 @@ int main(int argc, char *argv[])
                 if (flags)
                 {
 
-                   cout << "Total lines: " << tok.GetLinenum() << endl;
-                   cout << "Total tokens: " << tokenCount << endl;
-                   cout << "Total identifiers: " << identCount << endl;
-                   cout << "Total strings: " << tStringCount << endl;
+                    cout << "Total lines: " << tok.GetLinenum() << endl;
+                    cout << "Total tokens: " << tokenCount << endl;
+                    cout << "Total identifiers: " << identCount << endl;
+                    cout << "Total strings: " << tStringCount << endl;
                 }
 
             }
-           // infile1.close();
+            // infile1.close();
         }
     }
     return 0;
