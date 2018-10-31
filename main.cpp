@@ -66,87 +66,87 @@ int main(int argc, char* argv[])
                 return -1;
             }
         }
-        Token tok;
-        int lineNumber = 0;
+    }
+    Token tok;
+    int lineNumber = 0;
 
-        int tokenCount = 0;
-        int identCount = 0;
-        int tStringCount = 0;
+    int tokenCount = 0;
+    int identCount = 0;
+    int tStringCount = 0;
 
-        vector<string> IDENTVect;
-        vector<string> HandleDetect = {
-                "PLUS", "MINUS", "STAR", "SLASH", "ASSIGN", "EQ", "NEQ", "LT", "LEQ", "GT", "GEQ", "LOGICAND",
-                "LOGICOR", "LPAREN", "RPAREN", "SC",
-                "PRINT", "IF", "THEN", "TRUE", "FALSE",
-                "IDENT", "ICONST", "SCONST", "DONE"
-        };
+    vector<string> IDENTVect;
+    vector<string> HandleDetect = {
+            "PLUS", "MINUS", "STAR", "SLASH", "ASSIGN", "EQ", "NEQ", "LT", "LEQ", "GT", "GEQ", "LOGICAND",
+            "LOGICOR", "LPAREN", "RPAREN", "SC",
+            "PRINT", "IF", "THEN", "TRUE", "FALSE",
+            "IDENT", "ICONST", "SCONST", "DONE"
+    };
 
-        while ((tok = getNextToken(&infile1, &lineNumber)) != DONE && tok != ERR)
+    while ((tok = getNextToken(&infile1, &lineNumber)) != DONE && tok != ERR)
+    {
+
+        if (flagv)
         {
-
-            if (flagv)
-            {
-                cout << tok << endl;
-            }
-            if (flags)
-            {
-                //Not working, maybe done not properly?
-                tokenCount = tokenCount + 1;
-
-                //Checks to see how many identities - WORKING
-                if (tok == IDENT)
-                {
-                    identCount = identCount + 1;
-                }
-                if (tok == SCONST)
-                {
-                    tStringCount = tStringCount + 1;
-                }
-            }
-            if (flaga)
-            {
-                if (tok == IDENT)
-                {
-                    IDENTVect.push_back(tok.GetLexeme());
-                }
-                else
-                {
-                    // do nothing
-                }
-            }
-        }
-        if (tok == ERR)
-        {
-            cerr << "Error on line " << lineNumber << " (\"" << tok.GetLexeme() << ")" << endl;
-        }
-        //Identities first
-        if (flaga)
-        {
-            sort(IDENTVect.begin(), IDENTVect.end());
-            IDENTVect.erase(unique(IDENTVect.begin(), IDENTVect.end()), IDENTVect.end());
-            cout << "IDENTIFIERS: ";
-            for (unsigned int i = 0; i <= IDENTVect.size() - 1; ++i)
-            {
-                if (i == (IDENTVect.size() - 1))
-                {
-                    cout << IDENTVect[i] << endl;
-                }
-                else
-                {
-                    cout << IDENTVect[i] << ", ";
-                }
-            }
+            cout << tok << endl;
         }
         if (flags)
         {
+            //Not working, maybe done not properly?
+            tokenCount = tokenCount + 1;
 
-            cout << "Total lines: " << tok.GetLinenum() << endl;
-            cout << "Total tokens: " << tokenCount << endl;
-            cout << "Total identifiers: " << identCount << endl;
-            cout << "Total strings: " << tStringCount << endl;
+            //Checks to see how many identities - WORKING
+            if (tok == IDENT)
+            {
+                identCount = identCount + 1;
+            }
+            if (tok == SCONST)
+            {
+                tStringCount = tStringCount + 1;
+            }
         }
-
+        if (flaga)
+        {
+            if (tok == IDENT)
+            {
+                IDENTVect.push_back(tok.GetLexeme());
+            }
+            else
+            {
+                // do nothing
+            }
+        }
     }
+    if (tok == ERR)
+    {
+        cerr << "Error on line " << lineNumber << " (\"" << tok.GetLexeme() << ")" << endl;
+    }
+    //Identities first
+    if (flaga)
+    {
+        sort(IDENTVect.begin(), IDENTVect.end());
+        IDENTVect.erase(unique(IDENTVect.begin(), IDENTVect.end()), IDENTVect.end());
+        cout << "IDENTIFIERS: ";
+        for (unsigned int i = 0; i <= IDENTVect.size() - 1; ++i)
+        {
+            if (i == (IDENTVect.size() - 1))
+            {
+                cout << IDENTVect[i] << endl;
+            }
+            else
+            {
+                cout << IDENTVect[i] << ", ";
+            }
+        }
+    }
+    if (flags)
+    {
+
+        cout << "Total lines: " << tok.GetLinenum() + 1 << endl;
+        cout << "Total tokens: " << tokenCount << endl;
+        cout << "Total identifiers: " << identCount << endl;
+        cout << "Total strings: " << tStringCount << endl;
+    }
+
     return 0;
 }
 
