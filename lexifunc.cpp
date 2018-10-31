@@ -194,11 +194,6 @@ Token getNextToken(istream* in, int* linenum)
             case INID:
                 if (isalnum(ch))
                 {
-                    if(in->peek() == EOF)
-                    {
-                        (*linenum)--;
-                    }
-
                     lexeme.push_back(ch);
                 }
                 else //if (isspace(ch))
