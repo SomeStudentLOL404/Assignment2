@@ -79,6 +79,7 @@ Token getNextToken(istream* in, int* linenum)
                 }
                 else if (ch == '!')
                 {
+                    lexeme.push_back(ch);
                     if (in->peek() == '=')
                     {
                         in->get();
@@ -92,7 +93,6 @@ Token getNextToken(istream* in, int* linenum)
                         {
                             (*linenum)++;
                         }
-                        cout << "Returne error at !" << endl;
                         return Token(ERR, lexeme, *linenum);
                     }
                 }
@@ -144,7 +144,6 @@ Token getNextToken(istream* in, int* linenum)
                         {
                             (*linenum)++;
                         }
-                        cout << "Returne error at &" << endl;
                         return Token(ERR, lexeme, *linenum);
                     }
                 }
@@ -240,29 +239,31 @@ Token getNextToken(istream* in, int* linenum)
                 //If its not a digit
                 if (!isdigit(ch))
                 {
-                    if (ch == '\n')
-                    {
-                        (*linenum)--;
-                    }
-                    in->putback(ch);
                     if (lexeme == "-")
                     {
-
                         return Token(MINUS, lexeme, *linenum);
                     }
-                        //If it is
-                    else
+                    else if (isalpha(ch))
                     {
+                        lexeme.push_back(ch);
+                        return Token(ERR, lexeme, *linenum);
+                    }
+                    else //If it is
+                    {
+                        if (ch == '\n')
+                        {
+                            (*linenum)--;
+                        }
+                        in->putback(ch);
+
                         return Token(ICONST, lexeme, *linenum);
                     }
                 }
                 else
                 {
                     lexeme.push_back(ch);
-                    return Token(ICONST, lexeme, *linenum);
                 }
-                //Unreachable break
-                //break;
+                break;
             case INSTRING:
                 if (ch == '"')
                 {
@@ -271,6 +272,7 @@ Token getNextToken(istream* in, int* linenum)
                 else if (ch == '\n')
                 {
                     lexeme.push_back(ch);
+                    lexeme = '"' + lexeme;
                     return Token(ERR, lexeme, *linenum);
                 }
                 lexeme.push_back(ch);

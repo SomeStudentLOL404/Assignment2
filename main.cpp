@@ -118,7 +118,8 @@ int main(int argc, char* argv[])
     }
     if (tok == ERR)
     {
-        cerr << "Error on line " << lineNumber << " (\"" << tok.GetLexeme() << ")" << endl;
+        cerr << "Error on line " << lineNumber << " (" << tok.GetLexeme() << ")" << endl;
+        return -1;
     }
     //Identities first
     if (flaga)
